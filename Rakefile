@@ -11,6 +11,10 @@ rescue Bundler::BundlerError => e
 end
 require 'rake'
 
+Rake::TaskManager.record_task_metadata = true
+
+Dir.glob('tasks/*.rake').each { |r| import r }
+
 require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://guides.rubygems.org/specification-reference/ for more options
@@ -39,6 +43,7 @@ task :simplecov do
 end
 
 task :default => :test
+
 
 require 'rdoc/task'
 Rake::RDocTask.new do |rdoc|
