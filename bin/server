@@ -1,2 +1,2 @@
 #!/bin/bash
-bundle exec puma --config config/puma.rb config.ru
+rerun -- rackup --port 3000 config.ru

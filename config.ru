@@ -1,5 +1,5 @@
 require './boot.rb'
-require './lib/api.rb'
+require './api.rb'
 
 Bundler.require(:standalone)
 

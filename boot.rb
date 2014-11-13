@@ -1,9 +1,12 @@
 require 'rubygems'
 require 'bundler/setup'
+require 'data_mapper'
 
 ROOT_PATH = File.dirname(File.expand_path(__FILE__))
 
-$LOAD_PATH.unshift File.join(ROOT_PATH, 'lib')
+%w{app lib}.each do |dir|
+  $LOAD_PATH.unshift File.join(ROOT_PATH, dir)
+end
 $stdout.sync = true # print the logs to stdout, logfile is bullshit
 
 Struct.new('RACK_ENV') do
@@ -27,3 +30,8 @@ RACK_ENV = Struct::RACK_ENV.new
 
 Bundler.require(:default, RACK_ENV.env)
 
+if RACK_ENV.production?
+  DataMapper.setup(:default, ENV['CLEARDB_DATABASE_URL'])
+else
+  DataMapper.setup(:default, "sqlite3://#{ROOT_PATH}/db/lilie.db")
+end
