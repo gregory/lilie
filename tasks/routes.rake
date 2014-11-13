@@ -1,5 +1,5 @@
 require './boot.rb'
-require './api.rb'
+require './lilie_api.rb'
 
 desc 'API routes the rails way'
 task :routes do

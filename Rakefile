@@ -2,6 +2,7 @@
 
 require 'rubygems'
 require 'bundler'
+
 begin
   Bundler.setup(:default, :development)
 rescue Bundler::BundlerError => e
@@ -13,7 +14,9 @@ require 'rake'
 
 Rake::TaskManager.record_task_metadata = true
 
-Dir.glob('tasks/*.rake').each { |r| import r }
+require './boot.rb'
+
+Dir.glob('tasks/*.rake').each{ |f| load f}
 
 require 'jeweler'
 Jeweler::Tasks.new do |gem|

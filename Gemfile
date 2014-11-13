@@ -6,9 +6,12 @@ gem 'puma'
 
 group :standalone do
   gem 'grape', '~> 0.9.0'
+  gem 'data_mapper'
 end
 
 group :development do
+  gem 'dm-sqlite-adapter'
+  gem 'rerun'
   gem 'pry' ,'~> 0.10.1'
   gem "shoulda", ">= 0"
   gem "rdoc", "~> 3.12"
