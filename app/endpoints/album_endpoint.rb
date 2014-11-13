@@ -1,9 +1,7 @@
-module Lilie
-  class AlbumEndpoint < BaseEndpoint
-    prefix 'album'
+class AlbumEndpoint < BaseEndpoint
+  prefix 'album'
 
-    post '/' do
-      {foo: 'bar'}
-    end
+  post '/' do
+    {foo: 'bar'}
   end
 end

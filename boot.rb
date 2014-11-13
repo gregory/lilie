@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'bundler/setup'
+require 'yaml'
 require 'data_mapper'
 
 ROOT_PATH = File.dirname(File.expand_path(__FILE__))
@@ -30,8 +31,12 @@ RACK_ENV = Struct::RACK_ENV.new
 
 Bundler.require(:default, RACK_ENV.env)
 
+database = YAML.load(File.new(ROOT_PATH + "/config/database.yml"))
+
 if RACK_ENV.production?
+  DataMapper::Logger.new($stdout, :info)
   DataMapper.setup(:default, ENV['CLEARDB_DATABASE_URL'])
 else
-  DataMapper.setup(:default, "sqlite3://#{ROOT_PATH}/db/lilie.db")
+  DataMapper::Logger.new($stdout, :debug)
+  DataMapper.setup(:default, "sqlite3://#{ROOT_PATH}/#{database[RACK_ENV.env]['database']}")
 end

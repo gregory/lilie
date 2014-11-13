@@ -1,6 +1,2 @@
-require './boot.rb'
-require './api.rb'
-
-Bundler.require(:standalone)
-
-run Lilie::API
+require './lilie_api.rb'
+run LilieAPI
