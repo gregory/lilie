@@ -1,0 +1,56 @@
+groups:
+  default: ['lilie']
+  resources: ['mysql', 'router']
+  db: ['mysql']
+  services: ['router']
+
+
+containers:
+  lilie: &lilie
+    dockerfile: ./Dockerfile
+    image: bigcommerce/lilie
+    run:
+      attach: true
+      interactive: true
+      tty: true
+      publish:
+        - '5000:5000'
+      volume:
+        - /Users/gregory/code/lilie:/opt/services/lilie
+      link:
+        - mysql:mysql
+      env:
+        - CLEARDB_DATABASE_URL=mysql://admin:mypass@mysql/lilie_db
+        - VIRTUAL_HOST=img.bcservices.dev
+        - VIRTUAL_PORT=5000
+
+  mysql: &mysql
+    image: tutum/mysql
+    run:
+      env:
+        - MYSQL_USER=admin
+        - MYSQL_PASS=mypass
+      publish:
+        - '3306'
+      detach: true
+
+  router:
+    image: jwilder/nginx-proxy
+    run:
+      volume:
+        - '/var/run/docker.sock:/tmp/docker.sock'
+      publish:
+        - '80:80'
+      detach: true
+
+  mysql_create:
+    image: bigcommerce/lilie
+    run:
+      link:
+        - mysql:mysql
+      attach: true
+      interactive: true
+      tty: true
+      cmd: bash -c "mysql -uadmin -pmypass -h mysql -e 'CREATE DATABASE lilie_db'"
+
+
