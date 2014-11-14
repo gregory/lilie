@@ -16,7 +16,7 @@ Struct.new('RACK_ENV') do
     ENV['RACK_ENV'] || DEFAULT
   end
 
-  %w{development production}.each do |environment|
+  %w{development production test}.each do |environment|
     define_method :"#{environment}?" do
       env == environment
     end
@@ -31,12 +31,13 @@ RACK_ENV = Struct::RACK_ENV.new
 
 Bundler.require(:default, RACK_ENV.env)
 
-database = YAML.load(File.new(ROOT_PATH + "/config/database.yml"))
 
 if RACK_ENV.production?
+  require 'dm-mysql-adapter'
   DataMapper::Logger.new($stdout, :info)
   DataMapper.setup(:default, ENV['CLEARDB_DATABASE_URL'])
 else
+  database = YAML.load(File.new(ROOT_PATH + "/config/database.yml"))
   DataMapper::Logger.new($stdout, :debug)
   DataMapper.setup(:default, "sqlite3://#{ROOT_PATH}/#{database[RACK_ENV.env]['database']}")
 end

@@ -1,2 +1,2 @@
 #!/bin/bash
-rerun -- rackup --port 3000 config.ru
+rerun --signal KILL -- rackup --port 3000 config.ru

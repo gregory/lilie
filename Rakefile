@@ -18,42 +18,45 @@ require './boot.rb'
 
 Dir.glob('tasks/*.rake').each{ |f| load f}
 
-require 'jeweler'
-Jeweler::Tasks.new do |gem|
-  # gem is a Gem::Specification... see http://guides.rubygems.org/specification-reference/ for more options
-  gem.name = "lilie"
-  gem.homepage = "http://github.com/gregory/lilie"
-  gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
-  gem.email = "greg2502@gmail.com"
-  gem.authors = ["gregory"]
-  # dependencies defined in Gemfile
+if RACK_ENV.development?
+  require 'jeweler'
+  Jeweler::Tasks.new do |gem|
+    # gem is a Gem::Specification... see http://guides.rubygems.org/specification-reference/ for more options
+    gem.name = "lilie"
+    gem.homepage = "http://github.com/gregory/lilie"
+    gem.license = "MIT"
+    gem.summary = %Q{TODO: one-line summary of your gem}
+    gem.description = %Q{TODO: longer description of your gem}
+    gem.email = "greg2502@gmail.com"
+    gem.authors = ["gregory"]
+    # dependencies defined in Gemfile
+  end
+  Jeweler::RubygemsDotOrgTasks.new
+
+  require 'rdoc/task'
+  Rake::RDocTask.new do |rdoc|
+    version = File.exist?('VERSION') ? File.read('VERSION') : ""
+
+    rdoc.rdoc_dir = 'rdoc'
+    rdoc.title = "lilie #{version}"
+    rdoc.rdoc_files.include('README*')
+    rdoc.rdoc_files.include('lib/**/*.rb')
+  end
+
+  require 'rake/testtask'
+  Rake::TestTask.new(:test) do |test|
+    test.libs << 'lib' << 'test'
+    test.pattern = 'test/**/test_*.rb'
+    test.verbose = true
+  end
+
+  desc "Code coverage detail"
+  task :simplecov do
+    ENV['COVERAGE'] = "true"
+    Rake::Task['test'].execute
+  end
+  task :default => :test
 end
-Jeweler::RubygemsDotOrgTasks.new
-
-require 'rake/testtask'
-Rake::TestTask.new(:test) do |test|
-  test.libs << 'lib' << 'test'
-  test.pattern = 'test/**/test_*.rb'
-  test.verbose = true
-end
-
-desc "Code coverage detail"
-task :simplecov do
-  ENV['COVERAGE'] = "true"
-  Rake::Task['test'].execute
-end
-
-task :default => :test
 
 
-require 'rdoc/task'
-Rake::RDocTask.new do |rdoc|
-  version = File.exist?('VERSION') ? File.read('VERSION') : ""
 
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "lilie #{version}"
-  rdoc.rdoc_files.include('README*')
-  rdoc.rdoc_files.include('lib/**/*.rb')
-end

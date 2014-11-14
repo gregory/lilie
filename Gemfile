@@ -7,6 +7,12 @@ gem 'puma'
 group :standalone do
   gem 'grape', '~> 0.9.0'
   gem 'data_mapper'
+  gem 'roar'
+  gem 'hashie'
+end
+
+group :production do
+  gem 'dm-mysql-adapter'
 end
 
 group :development do
