@@ -1,6 +1,6 @@
 groups:
   default: ['lilie']
-  resources: ['mysql', 'router']
+  resources: ['mysql', 'router', 'dns']
   db: ['mysql']
   services: ['router']
 
@@ -10,6 +10,7 @@ containers:
     dockerfile: ./Dockerfile
     image: bigcommerce/lilie
     run:
+      cmd: bundle exec rackup -p 5000
       attach: true
       interactive: true
       tty: true
@@ -42,6 +43,18 @@ containers:
       publish:
         - '80:80'
       detach: true
+  dns:
+    dockerfile: ./dockerfiles/dns
+    image: bigcommerce/dns
+    run:
+      publish:
+        - '53:53/udp'
+      dns:
+        - 0.0.0.0
+      restart: "on-failure:5"
+      detach: true
+      env:
+        - TARGET_IP=192.168.59.103
 
   mysql_create:
     image: bigcommerce/lilie

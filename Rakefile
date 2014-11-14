@@ -16,7 +16,7 @@ Rake::TaskManager.record_task_metadata = true
 
 require './boot.rb'
 
-Dir.glob('tasks/*.rake').each{ |f| load f}
+Dir.glob('tasks/*.rake').each{ |f| load f }
 
 if RACK_ENV.development?
   require 'jeweler'

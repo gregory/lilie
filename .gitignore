@@ -2,6 +2,7 @@ db/*.sqlite*
 # rcov generated
 coverage
 coverage.data
+public/*
 
 # rdoc generated
 rdoc

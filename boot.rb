@@ -2,6 +2,7 @@ require 'rubygems'
 require 'bundler/setup'
 require 'yaml'
 require 'data_mapper'
+require 'pry'
 
 ROOT_PATH = File.dirname(File.expand_path(__FILE__))
 
@@ -41,3 +42,5 @@ else
   DataMapper::Logger.new($stdout, :debug)
   DataMapper.setup(:default, "sqlite3://#{ROOT_PATH}/#{database[RACK_ENV.env]['database']}")
 end
+
+Dir.glob(File.join(ROOT_PATH, 'config', 'initializers', '*.rb')).each{ |f| require f }
