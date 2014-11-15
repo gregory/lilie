@@ -45,5 +45,6 @@ else
   DataMapper.setup(:default, "sqlite3://#{ROOT_PATH}/#{database[RACK_ENV.env]['database']}")
 end
 
+Dragonfly.logger = Logger.new($stdout, :info)
 CONFIG = Hashie::Mash.load(File.join(ROOT_PATH, 'config', 'config.yml'))[RACK_ENV.env]
 Dir.glob(File.join(ROOT_PATH, 'config', 'initializers', '*.rb')).each{ |f| require f }
