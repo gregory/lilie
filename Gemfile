@@ -11,6 +11,8 @@ gem 'dragonfly-s3_data_store'
 group :standalone do
   gem 'grape', '~> 0.9.0'
   gem 'grape-roar'
+  gem 'garner'
+  gem 'rack-cache'
   gem 'kaminari', '~> 0.14.x', require: 'kaminari/grape'
   gem 'grape-swagger', '~> 0.6.0'
   gem 'activemodel'
@@ -19,6 +21,7 @@ group :standalone do
   gem 'roar'
   gem 'hashie'
   gem 'mime-types'
+  gem 'dalli'
 end
 
 group :production do

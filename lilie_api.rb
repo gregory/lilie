@@ -2,7 +2,7 @@ require './boot.rb'
 Bundler.require(:standalone)
 
 require 'grape'
-require 'dragonfly'
+require "garner/mixins/rack"
 require 'roar/representer'
 require 'roar/representer/json'
 require 'roar/representer/json/hal'

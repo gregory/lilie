@@ -1,4 +1,8 @@
 class AlbumEndpoint < BaseEndpoint
+  helpers Garner::Mixins::Rack
+  use Rack::ConditionalGet
+  use Rack::ETag
+
   format :json
   formatter :json, Grape::Formatter::Roar
 
@@ -28,10 +32,16 @@ class AlbumEndpoint < BaseEndpoint
 
   # TODO: display html page if content type is not json
   desc "List all the images of an album"
+  before do
+    header 'Expires' => Time.at(0).utc.to_s
+    header 'Cache-Control' => 'public, max-age=31536000'
+  end
   get '/:album_id.json' do
     @album = AlbumData.first(slug: params[:album_id])
     error!('400 Invalid Album', 400) unless @album
-    present @album, with: AlbumRepresenter
+    #garner  do
+      present @album, with: AlbumRepresenter
+    #end
   end
 
   desc "List all the images of an album"
