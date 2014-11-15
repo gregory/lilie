@@ -4,10 +4,11 @@ module ImageDetailRepresenter
   include Grape::Roar::Representer
   include Roar::Representer::JSON::HAL
   include Roar::Representer::Feature::Hypermedia
+  include ImageRepresenter
 
-  def_delegator :file, :width
-  property :id
+  def_delegators :file, :width, :height
   property :width
+  property :height
   property :album_id
 
   def album_id
@@ -16,10 +17,16 @@ module ImageDetailRepresenter
 
   link :self do |opts|
     request = Grape::Request.new(opts[:env])
-    "#{request.base_url}/#{album_id}/images/#{id}"
+    "#{request.base_url}/#{album_id}/images/#{uuid}"
   end
 
   link "image:original" do |opts|
-    "#{CONFIG.assets_host}/#{file_uid}"
+    request = Grape::Request.new(opts[:env])
+    "#{request.base_url}/images/#{uuid}"
+  end
+
+  link "image:sha" do |opts|
+    request = Grape::Request.new(opts[:env])
+    "#{file.url}"
   end
 end

@@ -1,4 +1,4 @@
-require 'representers/image_detail_representer'
+require 'representers/image_representer'
 
 module AlbumRepresenter
   include Grape::Roar::Representer
@@ -29,5 +29,5 @@ module AlbumRepresenter
     ]
   end
 
-  collection :images, extend: ImageDetailRepresenter,  as: :images
+  collection :images, extend: ImageRepresenter,  as: :images
 end

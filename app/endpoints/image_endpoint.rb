@@ -10,14 +10,14 @@ class ImageEndpoint < BaseEndpoint
 
     resources :images do
       desc "Get info about an image"
-      get '/:id.json' do
-        image_data = @album.images.first(id: params[:id])
+      get '/:uuid.json' do
+        image_data = @album.images.first(uuid: params[:uuid])
         present image_data, with: ImageDetailRepresenter
       end
 
       desc "Get info about an image"
-      get '/:id' do
-        image_data = @album.images.first(id: params[:id])
+      get '/:uuid' do
+        image_data = @album.images.first(uuid: params[:uuid])
         content_type MIME::Types.type_for(image_data.file_name)[0].to_s
         env['api.format'] = :binary
         #NOTE: this will download the image: header "Content-Disposition", "attachment; filename*=UTF-8''#{URI.escape(image_data.file_name)}"

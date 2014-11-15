@@ -33,8 +33,11 @@ class ImageData
   property :id, Serial
   property :album_id, Integer, required: true
   property :uuid, String, required: true, default: ->(resource, prop) { SecureRandom.uuid }
-  property :file_uid, String
-  property :file_name, String
+  property :file_uid, String, length: 255
+  property :file_aspect_ratio, Float
+  property :file_name, String, length: 50
+  property :file_shot_at, DateTime
+  property :file_fingerprint, String, length: 255
   property :created_at, DateTime
   property :updated_at, DateTime
 

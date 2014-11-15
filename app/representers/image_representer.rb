@@ -1,15 +1,12 @@
 module ImageRepresenter
   include Roar::Representer::JSON
-  include Roar::Representer::JSON::HAL
   include Roar::Representer::Feature::Coercion
   include Grape::Roar::Representer
 
-  property :id
-  property :created_at, type: DateTime
-  property :updated_at
-
-  link :self do |opts|
-    request = Grape::Request.new(opts[:env])
-    "#{request.base_url}/images/#{id}"
-  end
+  property :uuid
+  property :file_name, as: :filename
+  property :file_fingerprint, as: :fingerprint
+  property :file_shot_at, as: :shot_at, type: DateTime
+  property :file_aspect_ratio, as: :aspect_ratio
+  property :updated_at, type: DateTime
 end
