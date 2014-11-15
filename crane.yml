@@ -20,11 +20,25 @@ containers:
         - /Users/gregory/code/lilie:/opt/services/lilie
       link:
         - mysql:mysql
+        - memcached:memcached
+      env-file:
+        - .env
       env:
         - CLEARDB_DATABASE_URL=mysql://admin:mypass@mysql/lilie_db
         - VIRTUAL_HOST=img.bcservices.dev
         - VIRTUAL_PORT=5000
+        - MEMCACHED_USERNAME=admin
+        - MEMCACHED_PASSWORD=mypass
+        - MEMCACHED_SERVERS=memcached:11211
 
+  memcached:
+    image: tutum/memcached
+    run:
+      publish:
+        - '11211:11211'
+      env:
+        - MEMCACHED_PASS=mypass
+      detach: true
   mysql: &mysql
     image: tutum/mysql
     run:
