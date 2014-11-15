@@ -75,24 +75,15 @@ Dragonfly.app(:lilie).configure do |c|
     process :convert, "-background black -flatten +matte +dither -colors 2 -colorspace gray -contrast-stretch 0"
   end
 
-  #########################################################################################
-
+  processor :to_webp do |quality=50|
+    process :convert, "-quality #{quality} -define webp:lossless=true"
+    encode :webp
+  end
 
   processor :color_palette_swatch do |count|
     count = Magickly::DEFAULT_PALETTE_COLOR_COUNT if count == 'true'
 
     process :convert, "-resize 600x600 -colors #{count} -unique-colors -scale 10000%"
     encode :gif
-  end
-
-  analyser :color_palette do |temp_object, num_colors|
-    num_colors = num_colors.blank? ? Magickly::DEFAULT_PALETTE_COLOR_COUNT : num_colors.to_i
-    output = `convert #{temp_object.path} -resize 600x600 -colors #{num_colors} -format %c -depth 8 histogram:info:-`
-
-    palette = []
-    output.scan(/\s+(\d+):[^\n]+#([0-9A-Fa-f]{6})/) do |count, hex|
-      palette << { :count => count.to_i, :hex => hex }
-    end
-    palette
   end
 end

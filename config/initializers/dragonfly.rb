@@ -1,5 +1,5 @@
 require 'dragonfly'
-require 'lilie/jobs'
+require 'lilie'
 Dragonfly.app(:lilie).configure do |config|
   plugin :imagemagick
 
