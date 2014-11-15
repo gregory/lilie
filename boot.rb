@@ -2,6 +2,7 @@ require 'rubygems'
 require 'bundler/setup'
 require 'yaml'
 require 'data_mapper'
+require 'hashie'
 require 'pry'
 
 ROOT_PATH = File.dirname(File.expand_path(__FILE__))
@@ -38,9 +39,11 @@ if RACK_ENV.production?
   DataMapper::Logger.new($stdout, :info)
   DataMapper.setup(:default, ENV['CLEARDB_DATABASE_URL'])
 else
+  Dotenv.load
   database = YAML.load(File.new(ROOT_PATH + "/config/database.yml"))
   DataMapper::Logger.new($stdout, :debug)
   DataMapper.setup(:default, "sqlite3://#{ROOT_PATH}/#{database[RACK_ENV.env]['database']}")
 end
 
+CONFIG = Hashie::Mash.load(File.join(ROOT_PATH, 'config', 'config.yml'))[RACK_ENV.env]
 Dir.glob(File.join(ROOT_PATH, 'config', 'initializers', '*.rb')).each{ |f| require f }

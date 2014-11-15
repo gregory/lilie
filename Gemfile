@@ -5,6 +5,8 @@ ruby '2.0.0'
 gem 'puma'
 gem 'dragonfly', '~> 1.0.7'
 gem 'dragonfly-s3_data_store'
+#gem 'dragonfly-s3_data_store', path: '../dragonfly-s3_data_store/'
+
 
 group :standalone do
   gem 'grape', '~> 0.9.0'
@@ -29,6 +31,7 @@ group :debug do
 end
 
 group :development do
+  gem 'dotenv'
   gem 'dm-sqlite-adapter'
   gem "shoulda", ">= 0"
   gem "rdoc", "~> 3.12"

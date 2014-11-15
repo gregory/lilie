@@ -20,7 +20,6 @@ module ImageDetailRepresenter
   end
 
   link "image:original" do |opts|
-    "#{file.url}"
+    "#{CONFIG.assets_host}/#{file_uid}"
   end
-
 end

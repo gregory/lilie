@@ -2,7 +2,6 @@ require './boot.rb'
 Bundler.require(:standalone)
 
 require 'grape'
-require 'hashie'
 require 'dragonfly'
 require 'roar/representer'
 require 'roar/representer/json'
@@ -27,8 +26,6 @@ require 'representers/image_detail_representer'
 
 
 DataMapper.finalize
-
-CONFIG = Hashie::Mash.load(File.join(ROOT_PATH, 'config', 'config.yml'))[RACK_ENV.env]
 
 class LilieAPI < Grape::API
   mount AlbumEndpoint => '/'

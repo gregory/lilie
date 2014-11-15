@@ -1,3 +1,4 @@
+require 'securerandom'
 require 'dragonfly/model/validations'
 require 'active_model/validator'
 
@@ -20,13 +21,18 @@ class ImageData
 
   SLUG_LENGTH = 8
 
-  dragonfly_accessor :file, app: :lilie
+  dragonfly_accessor :file, app: :lilie do
+    storage_options do |file|
+      { path: "#{album.slug}/#{uuid}/#{file.basename}_#{updated_at.to_i}.#{file.ext}" }
+    end
+  end
 
   storage_names[:default] = 'images'
 
   belongs_to :album, 'AlbumData'
   property :id, Serial
   property :album_id, Integer, required: true
+  property :uuid, String, required: true, default: ->(resource, prop) { SecureRandom.uuid }
   property :file_uid, String
   property :file_name, String
   property :created_at, DateTime

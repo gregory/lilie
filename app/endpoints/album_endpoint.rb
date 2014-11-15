@@ -6,7 +6,10 @@ class AlbumEndpoint < BaseEndpoint
   post '/' do
     album = AlbumData.create
     params[:files].values.each do |file|
-      album.images << ImageData.new.tap{|f| f.file = file[:tempfile]}
+      album.images << ImageData.new.tap do |f|
+        f.file = file[:tempfile]
+        f.file.name = file[:filename]
+      end
     end
     album.save
     present album, with: AlbumRepresenter
@@ -32,10 +35,13 @@ class AlbumEndpoint < BaseEndpoint
     desc "Push an image to an existing or album"
     post '/' do
       params[:files].values.each do |file|
-        @album.images << ImageData.new.tap{|f| f.file = file[:tempfile]}
+        @album.images << ImageData.new.tap do |f|
+          f.file = file[:tempfile]
+          f.file.name = file[:filename]
+        end
       end
       @album.save
-      present album, with: AlbumRepresenter
+      present @album, with: AlbumRepresenter
     end
 
     # TODO: display html page if content type is not json

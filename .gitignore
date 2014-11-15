@@ -3,6 +3,7 @@ db/*.sqlite*
 coverage
 coverage.data
 public/*
+.env
 
 # rdoc generated
 rdoc
