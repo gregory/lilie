@@ -6,17 +6,15 @@ class AlbumEndpoint < BaseEndpoint
   format :json
   formatter :json, Grape::Formatter::Roar
 
-  desc "Create a new album"
-  post '/' do
-    album = AlbumData.create
-    params[:files].values.each do |file|
-      album.images << ImageData.new.tap do |f|
-        f.file = file[:tempfile]
-        f.file.name = file[:filename]
-      end
+  helpers do
+    def render_html_album
+      content_type "text/html"
+      "TODO: USE ERB"
     end
-    album.save
-    present album, with: AlbumRepresenter
+
+    def render_json_album
+      present @album, with: AlbumRepresenter
+    end
   end
 
   if RACK_ENV.development?
@@ -30,33 +28,28 @@ class AlbumEndpoint < BaseEndpoint
     end
   end
 
-  # TODO: display html page if content type is not json
-  desc "List all the images of an album"
-  before do
-    header 'Expires' => Time.at(0).utc.to_s
-    header 'Cache-Control' => 'public, max-age=31536000'
-  end
-  get '/:album_id.json' do
-    @album = AlbumData.first(slug: params[:album_id])
-    error!('400 Invalid Album', 400) unless @album
-    #garner  do
-      present @album, with: AlbumRepresenter
-    #end
+  desc "Create a new album"
+  post '/' do
+    album = AlbumData.create
+    params[:files].values.each do |file|
+      album.images << ImageData.new.tap do |f|
+        f.file = file[:tempfile]
+        f.file.name = file[:filename]
+      end
+    end
+    album.save
+    present album, with: AlbumRepresenter
   end
 
-  desc "List all the images of an album"
-  get '/:album_id' do
-    content_type "text/html"
-    @album = AlbumData.first(slug: params[:album_id])
-    error!('400 Invalid Album', 400) unless @album
-    "TODO: USE ERB"
+  before do
+    if params[:album_id]
+      @album = AlbumData.first(slug: params[:album_id])
+      error!('400 Invalid Album, dude', 400) unless @album
+    end
   end
 
   desc "Push an image to an existing or album"
-  post '/:album_id.json' do
-    @album = AlbumData.first(slug: params[:album_id])
-    error!('400 Invalid Album', 400) unless @album
-
+  post '/:album_id' do
     params[:files].values.each do |file|
       @album.images << ImageData.new.tap do |f|
         f.file = file[:tempfile]
@@ -65,5 +58,17 @@ class AlbumEndpoint < BaseEndpoint
     end
     @album.save
     present @album, with: AlbumRepresenter
+  end
+
+  # TODO: display html page if content type is not json
+  desc "List all the images of an album"
+  before do
+    header 'Expires' => Time.at(0).utc.to_s
+    header 'Cache-Control' => 'public, max-age=31536000'
+  end
+
+  desc "List all the images of an album"
+  get '/:album_id' do
+    params[:format] == 'json' ? render_json_album : render_html_album
   end
 end

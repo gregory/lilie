@@ -25,6 +25,12 @@ module ImageDetailRepresenter
     "#{request.base_url}/images/#{uuid}"
   end
 
+  #link "image:rotate" do |opts|
+    ##file.url('300x300',:gif)
+    ##request = Grape::Request.new(opts[:env])
+    ##"#{request.base_url}/images/#{uuid}"
+  #end
+
   link "image:sha" do |opts|
     request = Grape::Request.new(opts[:env])
     "#{file.url}"
