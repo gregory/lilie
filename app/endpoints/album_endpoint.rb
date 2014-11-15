@@ -26,28 +26,34 @@ class AlbumEndpoint < BaseEndpoint
     end
   end
 
-  route_param :album_id do
-    before do
-      @album = AlbumData.first(slug: params[:album_id])
-      error!('400 Invalid Album', 400) unless @album
-    end
+  # TODO: display html page if content type is not json
+  desc "List all the images of an album"
+  get '/:album_id.json' do
+    @album = AlbumData.first(slug: params[:album_id])
+    error!('400 Invalid Album', 400) unless @album
+    present @album, with: AlbumRepresenter
+  end
 
-    desc "Push an image to an existing or album"
-    post '/' do
-      params[:files].values.each do |file|
-        @album.images << ImageData.new.tap do |f|
-          f.file = file[:tempfile]
-          f.file.name = file[:filename]
-        end
+  desc "List all the images of an album"
+  get '/:album_id' do
+    content_type "text/html"
+    @album = AlbumData.first(slug: params[:album_id])
+    error!('400 Invalid Album', 400) unless @album
+    "TODO: USE ERB"
+  end
+
+  desc "Push an image to an existing or album"
+  post '/:album_id.json' do
+    @album = AlbumData.first(slug: params[:album_id])
+    error!('400 Invalid Album', 400) unless @album
+
+    params[:files].values.each do |file|
+      @album.images << ImageData.new.tap do |f|
+        f.file = file[:tempfile]
+        f.file.name = file[:filename]
       end
-      @album.save
-      present @album, with: AlbumRepresenter
     end
-
-    # TODO: display html page if content type is not json
-    desc "List all the images of an album"
-    get '/' do
-      present @album, with: AlbumRepresenter
-    end
+    @album.save
+    present @album, with: AlbumRepresenter
   end
 end

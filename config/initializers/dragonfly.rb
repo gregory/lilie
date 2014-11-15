@@ -1,3 +1,4 @@
+require 'lilie/jobs'
 Dragonfly.app(:lilie).configure do |config|
   plugin :imagemagick
 
@@ -6,7 +7,6 @@ Dragonfly.app(:lilie).configure do |config|
 
   if RACK_ENV.development?
     datastore :file, root_path: File.join(ROOT_PATH, 'public/images'), server_root: 'public'
-    url_path_prefix '/assets'
   else
     datastore :s3,
       bucket_name: 'img.gregory.io',
@@ -20,5 +20,5 @@ Dragonfly.app(:lilie).configure do |config|
   end
 
   url_host CONFIG.assets_host
-  url_format "/:album_id/:job/:sha/:name"
+  url_format "/images/:job/:sha"
 end

@@ -19,6 +19,8 @@ class ImageData
   extend Dragonfly::Model::Validations
   include DataMapper::Resource
 
+  storage_names[:default] = 'images'
+
   SLUG_LENGTH = 8
 
   dragonfly_accessor :file, app: :lilie do
@@ -26,8 +28,6 @@ class ImageData
       { path: "#{album.slug}/#{uuid}/#{file.basename}_#{updated_at.to_i}.#{file.ext}" }
     end
   end
-
-  storage_names[:default] = 'images'
 
   belongs_to :album, 'AlbumData'
   property :id, Serial
