@@ -5,6 +5,16 @@ Dragonfly.app(:lilie).configure do |c|
     content.process! :convert, "-brightness-contrast #{args[0]}"
   end
 
+  processor :watermark do |content, *args|
+    opacity = args[0] || 20 #0-100 where 0 is opaque
+    default_file = File.new(File.join(ROOT_PATH, 'images', 'logo.png')).path
+    img_properties = content.analyse(:image_properties)
+
+    # uses the source image dimensions to resize the watermark with
+    watermark_resize = "#{img_properties['width']}x#{img_properties['height']}<"
+    content.process! :convert, "#{default_file} -resize #{watermark_resize} -compose dissolve -define compose:args=#{opacity} -composite"
+  end
+
   processor :saturation do |content, *args|
     raise ArgumentError, "percentage must be a positive integer" unless args[0] =~ /^\d+$/
     content.process! :convert, "-modulate 100,#{args[0]}"
