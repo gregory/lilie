@@ -30,7 +30,8 @@ class ImageEndpoint < BaseEndpoint
 
         desc "Get the image"
         get '/:filename' do
-          _, basename = *params[:filename].match(%r{(.*)-\d*$})
+          #_, basename = *params[:filename].match(%r{\A(\w*)(?:-(\d*))?\z})
+          basename = params[:filename]
           @image_data  = @image_variants.detect{|image| image.file.basename == basename} #TODO: filter by version too
           error!('400 Invalid Image, dude', 400) unless @image_data
 

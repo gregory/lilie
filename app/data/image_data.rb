@@ -24,8 +24,10 @@ class ImageData
   SLUG_LENGTH = 8
 
   dragonfly_accessor :file, app: :lilie do
+    after_assign do |file|
+    end
     storage_options do |file|
-      { path: "#{album.slug}/#{uuid}/#{file.basename}_#{updated_at.to_i}.#{file.ext}" }
+      { path: "#{album.slug}/#{uuid}/#{file.name}" } #/album_id/uuid/version/file.name
     end
   end
 
