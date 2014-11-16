@@ -1,3 +1,4 @@
+requrie 'fog'
 class DeletePicturesWorker
   def initialize(options={})
     options         = default_options.merge(options)
@@ -14,9 +15,9 @@ class DeletePicturesWorker
   def default_options
     {
       provider:              'AWS',
-      bucket:                Dragonfly.app(:lilie).datastore.bucket_name,
-      aws_access_key_id:     Dragonfly.app(:lilie).datastore.access_key_id,
-      aws_secret_access_key: Dragonfly.app(:lilie).datastore.secret_access_key,
+      bucket:                ENV['AWS_BUCKET_NAME'],
+      aws_access_key_id:     ENV['AWS_KEY_ID'],
+      aws_secret_access_key: ENV['AWS_ACCESS_KEY'],
       file_blacklist:        default_file_blacklist
     }
   end

@@ -10,7 +10,7 @@ Dragonfly.app(:lilie).configure do |config|
     datastore :file, root_path: File.join(ROOT_PATH, 'public/images'), server_root: 'public'
   else
     datastore :s3,
-      bucket_name: 'img.gregory.io',
+      bucket_name: ENV['AWS_BUCKET_NAME'],
       access_key_id: ENV['AWS_KEY_ID'],
       secret_access_key: ENV['AWS_ACCESS_KEY'],
       url_scheme: 'https'
