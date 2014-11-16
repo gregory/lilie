@@ -43,10 +43,20 @@ Dragonfly.app(:lilie).configure do |c|
     content.process! :convert, "-channel Red -sigmoidal-contrast 6,50% -channel Blue -level 25%\\! -channel Green -sigmoidal-contrast 5,45% \\( +clone +matte -fill yellow -colorize 4% \\) -compose overlay -composite"
   end
 
-  processor :jcn do |content|
-    content.process! :greyscale
-    @job = @job.halftone(99)
-  end
+  #TODO: implement
+  #processor :jcn do |content|
+    ##Lilie.process! :greyscale, content
+    #Lilie.process! :greyscale, content
+    #Lilie.process! :halftone, content, 99
+  #end
+
+  #processor :greyscale do |content|
+    #content.process! :convert, '-type Greyscale'
+  #end
+
+  #processor :crop do |content, *args|
+    #Dragonfly::ImageMagick::Processors::Thumb.call(content)
+  #end
 
   processor :glow do |content, *args|
     if args[0] == 'true'
