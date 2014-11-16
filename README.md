@@ -39,11 +39,11 @@ $ http http://lilie.gregory.io/SLUG/images/ID
 - [x] GET /:album_id.json                        all the images from an album
 - [ ] GET /:album_id                             DISPLAY all the images as an album
 - [ ] GET /:album_id/images/:uuid                DISPLAY all the variants of the original image as an album
-- [ ] GET /:album_id/images/:uuid.json           all the variants of the original image + details
-- [ ] GET /:album_id/images/:uuid/filename-timestamp.json    info about the image(size, weight etc)
-- [ ] GET /:album_id/images/:uuid/filename-timestamp.ext     The actual image
-- [ ] GET /:album_id/images/:uuid/filter:contrast(40),crop(10)/filename-timestamp.ext     The transformation of the image (cache result and sort params to avoid cache miss from fragonfly)
-- [ ] POST /:album_id/images/:uuid/filter:contrast(40),crop(10)/filename-timestamp.ext     Store the transformed image in the album
+- [x] GET /:album_id/images/:uuid.json           all the variants of the original image + details
+- [x] GET /:album_id/images/:uuid/filename-timestamp.json    info about the image(size, weight etc)
+- [x] GET /:album_id/images/:uuid/filename-timestamp.ext     The actual image
+- [x] GET /:album_id/images/:uuid/filter:contrast(40),crop(10)/filename-timestamp.ext     The transformation of the image (cache result and sort params to avoid cache miss from fragonfly)
+- [x] POST /:album_id/images/:uuid/filter:contrast(40),crop(10)/filename-timestamp.ext     Store the transformed image in the album
 - [ ] Call to kraken to optimise the image size this should be a delayed job - anytime there is at least 1 new image in an album, run this task - we'll update the stored image
 - [ ] Load balance the all shit with nginx and make master/slave mysql
 - [ ] On the fly compute thumb
