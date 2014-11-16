@@ -9,10 +9,17 @@ use Rack::Cors do
   end
 end
 
-use Rack::Cache,
-  verbose: RACK_ENV.development?,
-  metastore: CACHE,
-  entitystore: CACHE
+if !RACK_ENV.production?
+  use Rack::Cache,
+    :verbose     => true,
+    :metastore   => 'file:tmp/cache/rack/meta',
+    :entitystore => 'file:tmp/cache/rack/body'
+else
+  use Rack::Cache,
+    verbose: true,
+    metastore: CACHE,
+    entitystore: CACHE
+end
 
 use Dragonfly::Middleware, :lilie
 run LilieAPI
