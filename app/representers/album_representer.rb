@@ -23,8 +23,34 @@ module AlbumRepresenter
     request = Grape::Request.new(opts[:env])
     [
       {
-        name: :images_details,
+        method: 'GET',
+        name: :image_variants,
         href: "#{request.base_url}/#{slug}/images/{uuid}"
+      },
+      {
+        method: 'GET',
+        name: :image_variants_details,
+        href: "#{request.base_url}/#{slug}/images/{uuid}.json"
+      },
+      {
+        method: 'GET',
+        name: :image,
+        href: "#{request.base_url}/#{slug}/images/{uuid}/{filename}"
+      },
+      {
+        method: 'GET',
+        name: :image_details,
+        href: "#{request.base_url}/#{slug}/images/{uuid}/{filename}.json"
+      },
+      {
+        method: 'GET',
+        name: :filter_image,
+        href: "#{request.base_url}/#{slug}/images/{uuid}/filter:[filter1(options),...]/{filename}.json"
+      },
+      {
+        method: 'POST',
+        name: :save_filtered_image,
+        href: "#{request.base_url}/#{slug}/images/{uuid}/filter:[filter1(options),...]/{filename}.json"
       }
     ]
   end

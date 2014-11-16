@@ -28,7 +28,7 @@ class AlbumEndpoint < BaseEndpoint
     end
   end
 
-  desc "Create a new album"
+  desc "Create a new album - TODO: remember the album_id in the session"
   post '/' do
     album = AlbumData.create
     params[:files].values.each do |file|
