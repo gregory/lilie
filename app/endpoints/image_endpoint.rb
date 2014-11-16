@@ -29,8 +29,9 @@ class ImageEndpoint < BaseEndpoint
         end
 
         desc "Get the image"
-        get '/:filename-:version' do
-          @image_data  = @image_variants.detect{|image| image.file.basename == params[:filename]} #TODO: filter by version too
+        get '/:filename' do
+          _, basename = *params[:filename].match(%r{(.*)-\d*$})
+          @image_data  = @image_variants.detect{|image| image.file.basename == basename} #TODO: filter by version too
           error!('400 Invalid Image, dude', 400) unless @image_data
 
           params[:format] == 'json' ? render_image_details : render_image
