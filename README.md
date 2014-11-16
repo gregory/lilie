@@ -33,18 +33,20 @@ $ http http://lilie.gregory.io/SLUG/images/ID
 
 ##ROADMAP:
 
-- [x] POST / : Post images to a new album
-- [x] POST /:album_id/ : Post images to an existing album
-- [x] GET /:album_id.json  all the images from an album
-- [x] GET/:album_id/images/:id : info about the image
-- [ ] GET /:album_id  display all the images
-- [ ] GET /:album_id/images/id/{thumb,small,big} : store thumb, small,big
-- [ ] GET /:id/token=&name=custom&flip=true : create a new custom image and set an alias. warn: rate limits - warn: no cache the token
-- [ ] POST /:id/action/delete_customs
-- [ ] Call to kraken to optimise the image size - this should be a delayed job - anytime there is at least 1 new image in an album, run this task
-- [ ] Manage versions
-- [ ] Make sure files are cached properly
-- [ ] POST / : create new album unless album_id is passed in a cookie. use before_validation block to overwrite the params[:album_id]
+- [x] POST /                                     Post images to a new album
+- [ ] POST /                                     create new album unless album_id is passed in a cookie. use before_validation block to overwrite the params
+- [x] POST /:album_id/                           Post images to an existing album
+- [x] GET /:album_id.json                        all the images from an album
+- [ ] GET /:album_id                             DISPLAY all the images as an album
+- [ ] GET /:album_id/images/:uuid                DISPLAY all the variants of the original image as an album
+- [ ] GET /:album_id/images/:uuid.json           all the variants of the original image + details
+- [ ] GET /:album_id/images/:uuid/filename-timestamp.json    info about the image(size, weight etc)
+- [ ] GET /:album_id/images/:uuid/filename-timestamp.ext     The actual image
+- [ ] GET /:album_id/images/:uuid/filter:contrast(40),crop(10)/filename-timestamp.ext     The transformation of the image (cache result and sort params to avoid cache miss from fragonfly)
+- [ ] POST /:album_id/images/:uuid/filter:contrast(40),crop(10)/filename-timestamp.ext     Store the transformed image in the album
+- [ ] Call to kraken to optimise the image size this should be a delayed job - anytime there is at least 1 new image in an album, run this task - we'll update the stored image
+- [ ] Load balance the all shit with nginx and make master/slave mysql
+- [ ] On the fly compute thumb
 
 ## Copyright
 
