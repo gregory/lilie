@@ -17,22 +17,16 @@ module ImageDetailRepresenter
 
   link :self do |opts|
     request = Grape::Request.new(opts[:env])
-    "#{request.base_url}/#{album_id}/images/#{uuid}"
+    "#{request.base_url}/#{album.slug}/images/#{uuid}/#{file.basename}-#{updated_at.to_i}.json"
   end
 
   link "image:original" do |opts|
     request = Grape::Request.new(opts[:env])
-    "#{request.base_url}/images/#{uuid}"
+    "#{request.base_url}/#{album.slug}/images/#{uuid}/#{file.basename}-#{updated_at.to_i}.#{file.ext}"
   end
 
-  #link "image:rotate" do |opts|
-    ##file.url('300x300',:gif)
-    ##request = Grape::Request.new(opts[:env])
-    ##"#{request.base_url}/images/#{uuid}"
-  #end
-
-  link "image:sha" do |opts|
+  link "image:thumb" do |opts|
     request = Grape::Request.new(opts[:env])
-    "#{file.url}"
+    "#{request.base_url}/#{album.slug}/images/#{uuid}/filter:thumb(100x100)/#{file.basename}-#{updated_at.to_i}.#{file.ext}"
   end
 end

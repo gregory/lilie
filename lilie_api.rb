@@ -24,6 +24,8 @@ require 'representers/paginated_representer'
 require 'representers/album_representer'
 require 'representers/albums_representer'
 require 'representers/image_representer'
+require 'representers/images_representer'
+require 'representers/image_variants_representer'
 require 'representers/image_detail_representer'
 
 

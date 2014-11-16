@@ -11,9 +11,8 @@ class ImageVariantsEndpoint < BaseEndpoint
     resources :images do
       route_param :uuid do
         before do
-          binding.pry
-          @image_variants = @album.images.where(uuid: params[:uuid])
-          error!('400 Invalid Image, dude', 400) unless @image_variants.nil?
+          @image_variants = @album.images.all(uuid: params[:uuid])
+          error!('400 Invalid Image, dude', 400) if @image_variants.empty?
         end
 
         helpers do
@@ -23,7 +22,7 @@ class ImageVariantsEndpoint < BaseEndpoint
           end
 
           def render_image_variant_details
-            present @image_variants, with: ImageRepresenter
+            present Kaminari.paginate_array(@image_variants).page(params[:page]).per(params[:size]), with: ImageVariantsRepresenter
           end
         end
 

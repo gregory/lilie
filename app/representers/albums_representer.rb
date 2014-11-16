@@ -5,8 +5,6 @@ module AlbumsRepresenter
   include Grape::Roar::Representer
   include PaginatedRepresenter
 
-  property :count, as: :total
-
   link :self do |opts|
     request = Grape::Request.new(opts[:env])
     "#{request.base_url}/"

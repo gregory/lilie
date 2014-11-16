@@ -1,89 +1,70 @@
 Dragonfly.app(:lilie).configure do |c|
 # Here are the Insta Hipster filters: https://github.com/paulasmuth/hipster_filters
-  processor :brightness_contrast do |val|
-    raise ArgumentError, "argument must be of the format '<int>[%]x<int>[%]'" unless val =~ /^-?\d+%?(x-?\d+%?)?$/
-    process :convert, "-brightness-contrast #{val}"
+  processor :brightness_contrast do |content, *args|
+    raise ArgumentError, "argument must be of the format '<int>[%]x<int>[%]'" unless args[0] =~ /^-?\d+%?(x-?\d+%?)?$/
+    content.process! :convert, "-brightness-contrast #{args[0]}"
   end
 
-  processor :saturation do |percentage|
-    raise ArgumentError, "percentage must be a positive integer" unless percentage =~ /^\d+$/
-    process :convert, "-modulate 100,#{percentage}"
+  processor :saturation do |content, *args|
+    raise ArgumentError, "percentage must be a positive integer" unless args[0] =~ /^\d+$/
+    content.process! :convert, "-modulate 100,#{args[0]}"
   end
 
-  processor :resize_with_blur do |size|
-    process :convert, "-filter Gaussian -resize #{size}"
+  processor :resize_with_blur do |content, *args|
+    content.process! :convert, "-filter Gaussian -resize #{args[0]}"
   end
 
-  processor :tilt_shift do |coefficients|
-    coefficients = '4,-4,1' if coefficients == 'true'
+  processor :tilt_shift do |content, *args|
+    coefficients = '4,-4,1' if arg[0] == 'true'
     raise ArgumentError, "coefficients must be of the format '<decimal>,<decimal>,<decimal>'" unless coefficients =~ /^(-?\d+(\.\d+)?,){2}-?\d+(\.\d+)?$/
 
     # note: can be made faster by decreasing sigma passed to option:compose:args
     action = "\\( +clone -sparse-color Barycentric '0,0 black 0,%h white' -function polynomial #{coefficients} \\) -compose Blur -set option:compose:args 8 -composite"
-    process :convert, action
+    content.process! :convert, action
   end
 
-  # thanks to http://www.melissaevans.com/tutorials/pop-art-inspired-by-lichtenstein
-  processor :halftone do |threshold|
-    threshold = 50 if threshold == 'true'
-    process :convert, "-white-threshold #{threshold.to_i}% -gaussian-blur 2 -ordered-dither 8x1"
+  processor :halftone do |content, *args|
+    threshold = 50 if args[0] == 'true'
+    content.process! :convert, "-white-threshold #{threshold.to_i}% -gaussian-blur 2 -ordered-dither 8x1"
   end
 
   # thanks to http://www.photoshopsupport.com/tutorials/or/cross-processing.html
-  processor :cross_process do
-    process :convert, "-channel Red -sigmoidal-contrast 6,50% -channel Blue -level 25%\\! -channel Green -sigmoidal-contrast 5,45% \\( +clone +matte -fill yellow -colorize 4% \\) -compose overlay -composite"
+  processor :cross_process do |content|
+    content.process! :convert, "-channel Red -sigmoidal-contrast 6,50% -channel Blue -level 25%\\! -channel Green -sigmoidal-contrast 5,45% \\( +clone +matte -fill yellow -colorize 4% \\) -compose overlay -composite"
   end
 
-  ## thanks to https://github.com/soveran/lomo
-  processor :lomo do |modulate_params|
-    if modulate_params == 'true'
-      modulate_params = '100,150'
-    elsif modulate_params =~ /^\d+,\d+$/
-      # valid params
-    else
-      raise ArgumentError, "modulate_params must be of the format '<int>,<int>'"
-    end
-
-    lomo_mask = File.join(File.dirname(__FILE__), 'images', 'lomo_mask.png')
-    process :convert, "\\( +clone -unsharp 1 -contrast -contrast -modulate #{modulate_params} \\( #{lomo_mask} -resize #{@job.width}x#{@job.height}\\! \\) -compose overlay -composite \\) -compose multiply -composite"
-  end
-
-  # thanks to Jesse Chan-Norris - http://jcn.me/
-  processor :jcn do
-    process :greyscale
+  processor :jcn do |content|
+    content.process! :greyscale
     @job = @job.halftone(99)
   end
 
-
-  ## thanks to Fred Weinhaus (http://www.fmwconcepts.com/imagemagick) for the following: ##
-
-  processor :glow do |args|
-    if args == 'true'
+  processor :glow do |content, *args|
+    if args[0] == 'true'
       amount = 1.2
       softening = 20
-    elsif args =~ /^(\d+\.\d+?),(\d+)$/ && $1.to_f >= 1.0 && $2.to_i >= 0
-      amount = $1
+    elsif args[0] =~ /^(\d+_\d+?),(\d+)$/ && $1.to_f >= 1.0 && $2.to_i >= 0
+      amount = $1.to_f
       softening = $2
     else
       raise ArgumentError, "args must be of the form <amount(float)>,<softening(int)>"
     end
 
-    process :convert, "\\( +clone -evaluate multiply #{amount} -blur 0x#{softening} \\) -compose plus -composite"
+    content.process! :convert, "\\( +clone -evaluate multiply #{amount} -blur 0x#{softening} \\) -compose plus -composite"
   end
 
-  processor :two_color do
-    process :convert, "-background black -flatten +matte +dither -colors 2 -colorspace gray -contrast-stretch 0"
+  processor :two_color do |content|
+    content.process! :convert, "-background black -flatten +matte +dither -colors 2 -colorspace gray -contrast-stretch 0"
   end
 
-  processor :to_webp do |quality=50|
-    process :convert, "-quality #{quality} -define webp:lossless=true"
-    encode :webp
+  processor :to_webp do |content, *args|
+    quality = args[0] || 50
+    content.process! :convert, "-quality #{quality} -define webp:lossless=true", 'webp'
+    content.ext = "webp"
   end
 
-  processor :color_palette_swatch do |count|
-    count = Magickly::DEFAULT_PALETTE_COLOR_COUNT if count == 'true'
+  processor :color_palette_swatch do |content, *args|
+    count = 5 if args[0] == 'true'
 
-    process :convert, "-resize 600x600 -colors #{count} -unique-colors -scale 10000%"
-    encode :gif
+    content.process! :convert, "-resize 600x600 -colors #{count} -unique-colors -scale 10000%", 'gif'
   end
 end
