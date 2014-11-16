@@ -6,7 +6,7 @@ Dragonfly.app(:lilie).configure do |config|
   verify_urls true
   secret ENV['DRAGONFLY_SECRET'] || 'changeme'
 
-  if RACK_ENV.development?
+  if !RACK_ENV.production?
     datastore :file, root_path: File.join(ROOT_PATH, 'public/images'), server_root: 'public'
   else
     datastore :s3,
