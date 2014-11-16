@@ -1,14 +1,16 @@
 groups:
   default: ['lilie']
-  resources: ['mysql', 'router', 'dns']
+  resources: ['mysql', 'router', 'dns', 'memcached']
   db: ['mysql']
-  services: ['router']
+  services: ['router', 'dns', 'memcached']
 
 
 containers:
   lilie: &lilie
     dockerfile: ./Dockerfile
     image: bigcommerce/lilie
+    start:
+      detach: true
     run:
       cmd: bundle exec rackup -p 5000
       attach: true
