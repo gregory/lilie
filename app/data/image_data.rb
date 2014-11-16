@@ -40,10 +40,18 @@ class ImageData
   property :file_fingerprint, String, length: 255
   property :created_at, DateTime
   property :updated_at, DateTime
+  property :transformations, Text, lazy: false
 
   validates_presence_of :file
 
   def dirty_self?
     dragonfly_attachments.keys.any? { |k| !!send(k) && !send("#{k}_uid")} || super
+  end
+  def steps=(steps)
+    @steps = steps.map do |step|
+      "#{step.class.step_name}(#{step.args.map{|a| a.inspect }})"
+    end.tap do |s|
+      self.transformations = s.join(', ')
+    end
   end
 end

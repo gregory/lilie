@@ -10,6 +10,7 @@ module ImageRepresenter
   property :file_shot_at, as: :shot_at, type: DateTime
   property :file_aspect_ratio, as: :aspect_ratio
   property :updated_at, type: DateTime
+  property :transformations
 
   link :self do |opts|
     request = Grape::Request.new(opts[:env])

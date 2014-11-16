@@ -5,7 +5,6 @@ module ImageVariantsRepresenter
   include PaginatedRepresenter
   include Roar::Representer::JSON::HAL
 
-
   def album
     @album ||= to_a[0].album
   end
@@ -53,12 +52,5 @@ module ImageVariantsRepresenter
     property :file_aspect_ratio, as: :aspect_ratio
     property :updated_at, type: DateTime
     property :transformations
-
-    define_method :transformations do
-      self.file.job.steps.map do |step|
-        step.class.step_name
-        "#{step.class.step_name}(#{step.args.map{|a| a.inspect }.join(', ')})"
-      end
-    end
   end
 end

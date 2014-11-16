@@ -44,6 +44,7 @@ class ImageFilterEndpoint < BaseEndpoint
               basename = f.file.basename
               f.file = transformed_image
               f.file.basename = basename
+              f.steps = transformed_image.steps
             end
             target_image.save
           else

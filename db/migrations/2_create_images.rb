@@ -9,6 +9,7 @@ migration 2, :create_images do
       column :file_aspect_ratio, Float
       column :file_shot_at, DateTime
       column :file_fingerprint, String, length: 255
+      column :transformations, 'text'
       column :created_at, DateTime
       column :updated_at, DateTime
     end
