@@ -21,6 +21,11 @@ Diaplay the info about an image
 $ http http://lilie.gregory.io/SLUG/images/ID
 ```
 
+## Clients
+
+* Ruby: [HyperClient](https://github.com/codegram/hyperclient)
+* Browser: [JSONView Plugin](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc?hl=en)
+
 ## Contributing to lilie
 
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.
@@ -46,8 +51,8 @@ $ http http://lilie.gregory.io/SLUG/images/ID
 - [x] POST /:album_id/images/:uuid/filter:contrast(40),crop(10)/filename-timestamp.ext     Store the transformed image in the album
 - [ ] Call to kraken to optimise the image size this should be a delayed job - anytime there is at least 1 new image in an album, run this task - we'll update the stored image
 - [ ] Load balance the all shit with nginx and make master/slave mysql
-- [ ] On the fly compute thumb
-
+- [x] On the fly compute thumb
+- [ ] Fix HAL - it doesn't make any sens now
 ## Copyright
 
 Copyright (c) 2014 gregory. See LICENSE.txt for
