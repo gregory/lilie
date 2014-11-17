@@ -55,6 +55,11 @@ $ http http://lilie.gregory.io/SLUG/images/ID
 - [ ] Cache
 - [x] Add Swagger
 - [ ] Fix HAL - it doesn't make any sens now
+
+## Credits
+
+My wife lilie that let me do this. <3
+
 ## Copyright
 
 Copyright (c) 2014 gregory. See LICENSE.txt for
