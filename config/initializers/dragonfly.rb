@@ -7,7 +7,7 @@ Dragonfly.app(:lilie).configure do |config|
   secret ENV['DRAGONFLY_SECRET'] || 'changeme'
 
   if !RACK_ENV.production?
-    datastore :file, root_path: File.join(ROOT_PATH, 'public/upload'), server_root: 'public/upload'
+    datastore :file, root_path: File.join(ROOT_PATH, 'uploads'), server_root: 'images'
   else
     datastore :s3,
       bucket_name: ENV['AWS_BUCKET_NAME'],

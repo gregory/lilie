@@ -18,13 +18,14 @@ class ImageFilterEndpoint < BaseEndpoint
 
   desc "Store the image in the album"
   post '/filter::filters/:filename' do
+    _, basename = *params[:filename].match(%r{\A(\w*)(?:-(\d*))?\z})
     image_data = @image_variants.detect{|image| image.file.basename == basename} #TODO: filter by version too
     error!('400 Invalid Image, dude', 400) unless image_data
 
     errors, transformed_image = Lilie.transform(image_data.file, params[:filters])
     error!("400 Invalid filters: #{errors}") if errors
 
-    target_image = @image_variants.detect{|image| image.file.basename == params[:basename]}
+    target_image = @image_variants.detect{|image| image.file.name == params[:filename]}
     if target_image # we are updating the image
       target_image.tap do |f|
         basename = f.file.basename

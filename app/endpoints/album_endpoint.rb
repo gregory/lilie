@@ -52,15 +52,19 @@ class AlbumEndpoint < BaseEndpoint
       present @album, with: AlbumRepresenter
     end
 
-    before do
-      header 'Expires' => Time.at(0).utc.to_s
-      header 'Cache-Control' => 'public, max-age=31536000'
-    end
+    #before do
+      #header 'Expires' => Time.at(0).utc.to_s
+      #header 'Cache-Control' => 'public, max-age=31536000'
+    #end
 
     helpers do
       def render_html_album
-        content_type "text/html"
-        "TODO: USE ERB"
+        require 'erb'
+        content_type MIME::Types.type_for(".html")[0].to_s
+        env['api.format'] = :binary
+        @gallery = @album.images.extend(GalleryRepresenter).to_json(env: env)
+        template = ERB.new File.read(File.join(ROOT_PATH, "app", "views", "album.html.erb"))
+        template.result(binding)
       end
 
       def render_json_album
@@ -68,7 +72,6 @@ class AlbumEndpoint < BaseEndpoint
       end
     end
 
-    # TODO: display html page if content type is not json
     desc "List all the images of an album"
     get '/' do
       params[:format] == 'json' ? render_json_album : render_html_album

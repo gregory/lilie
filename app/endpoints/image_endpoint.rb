@@ -13,9 +13,14 @@ class ImageEndpoint < BaseEndpoint
 
       helpers do
         def render_image_variants
-          content_type "text/html"
-          "TODO: USE ERB"
+          require 'erb'
+          content_type MIME::Types.type_for(".html")[0].to_s
+          env['api.format'] = :binary
+          @gallery = @image_variants.extend(GalleryRepresenter).to_json(env: env)
+          template = ERB.new File.read(File.join(ROOT_PATH, "app", "views", "album.html.erb"))
+          template.result(binding)
         end
+
         def render_image
           content_type MIME::Types.type_for(@image_data.file_name)[0].to_s
           env['api.format'] = :binary

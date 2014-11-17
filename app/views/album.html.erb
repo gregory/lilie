@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=utf-8>
+    <script src="/lib/jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/lib/chromatic.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" href="/css/chromatic.css" media="screen" charset="utf-8">
+    <style media="screen">
+      body {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <script charset="utf-8">
+      $(function(){
+        var photos =<%= JSON.parse(@gallery)['images'].to_json.html_safe %>
+        $(document.body).chromatic(photos);
+      })
+    </script>
+  </body>
+</html>

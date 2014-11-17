@@ -21,6 +21,7 @@ require 'data/image_data'
 
 require 'representers/paginated_representer'
 require 'representers/album_representer'
+require 'representers/gallery_representer'
 require 'representers/albums_representer'
 require 'representers/image_representer'
 require 'representers/images_representer'

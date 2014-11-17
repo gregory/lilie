@@ -42,8 +42,8 @@ $ http http://lilie.gregory.io/SLUG/images/ID
 - [ ] POST /                                     create new album unless album_id is passed in a cookie. use before_validation block to overwrite the params
 - [x] POST /:album_id/                           Post images to an existing album
 - [x] GET /:album_id.json                        all the images from an album
-- [ ] GET /:album_id                             DISPLAY all the images as an album
-- [ ] GET /:album_id/images/:uuid                DISPLAY all the variants of the original image as an album
+- [x] GET /:album_id                             DISPLAY all the images as an album
+- [x] GET /:album_id/images/:uuid                DISPLAY all the variants of the original image as an album
 - [x] GET /:album_id/images/:uuid.json           all the variants of the original image + details
 - [x] GET /:album_id/images/:uuid/filename-timestamp.json    info about the image(size, weight etc)
 - [x] GET /:album_id/images/:uuid/filename-timestamp.ext     The actual image
@@ -51,7 +51,7 @@ $ http http://lilie.gregory.io/SLUG/images/ID
 - [x] POST /:album_id/images/:uuid/filter:contrast(40),crop(10)/filename-timestamp.ext     Store the transformed image in the album
 - [ ] Call to kraken to optimise the image size this should be a delayed job - anytime there is at least 1 new image in an album, run this task - we'll update the stored image
 - [ ] Load balance the all shit with nginx and make master/slave mysql
-- [x] On the fly compute thumb
+- [x] On the fly manipulations
 - [ ] Fix HAL - it doesn't make any sens now
 ## Copyright
 
