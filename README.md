@@ -1,6 +1,12 @@
 # lilie
 
 
+## Clients
+
+* Go at http://lilie.gregory.io to explore the Swager Doc
+* Ruby: [HyperClient](https://github.com/codegram/hyperclient)
+* Browser: [JSONView Plugin](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc?hl=en)
+
 ```bash
 $ brew install httpie
 ```
@@ -21,10 +27,6 @@ Diaplay the info about an image
 $ http http://lilie.gregory.io/SLUG/images/ID
 ```
 
-## Clients
-
-* Ruby: [HyperClient](https://github.com/codegram/hyperclient)
-* Browser: [JSONView Plugin](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc?hl=en)
 
 ## Contributing to lilie
 
