@@ -1,6 +1,7 @@
 Dragonfly.app(:lilie).configure do |c|
   analyser :shot_at do |content|
-    DateTime.strptime content.shell_eval { |path| "identify -format '%[EXIF:DateTime]' #{path}" }, "%Y:%m:%d %H:%M:%S"
+    exif_date = content.shell_eval { |path| "identify -format '%[EXIF:DateTime]' #{path}" }
+    exif_date.blank?  ? DateTime.now : DateTime.strptime(exif_date, "%Y:%m:%d %H:%M:%S")
   end
 
   analyser :fingerprint do |content|
