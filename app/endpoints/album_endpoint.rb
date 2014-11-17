@@ -28,6 +28,7 @@ class AlbumEndpoint < BaseEndpoint
       album.images << ImageData.new.tap do |f|
         f.file = file[:tempfile]
         f.file.name = file[:filename]
+        error!('400 You should upload files, dude', 400) unless f.file.image?
       end
     end
     album.save
@@ -48,6 +49,7 @@ class AlbumEndpoint < BaseEndpoint
         @album.images << ImageData.new.tap do |f|
           f.file = file[:tempfile]
           f.file.name = file[:filename]
+          error!('400 You should upload files, dude', 400) unless f.file.image? #TODO: move that to validator in image
         end
       end
       @album.save
