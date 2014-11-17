@@ -14,7 +14,7 @@ group :standalone do
   gem 'garner'
   gem 'rack-cache'
   gem 'kaminari', '~> 0.14.x', require: 'kaminari/grape'
-  gem 'grape-swagger', '~> 0.6.0'
+  gem 'grape-swagger', '~> 0.8.0'
   gem 'activemodel'
   gem 'rack-cors', '~> 0.2.8'
   gem 'data_mapper'
