@@ -1,5 +1,5 @@
 groups:
-  default: ['lilie']
+  default: ['lilie', 'lilie2', 'lilie3']
   resources: ['mysql', 'router', 'dns', 'memcached']
   db: ['mysql']
   services: ['router', 'dns', 'memcached']
@@ -17,7 +17,7 @@ containers:
       interactive: true
       tty: true
       publish:
-        - '5000:5000'
+        - '5000'
       volume:
         - /Users/gregory/code/lilie:/opt/services/lilie
       link:
@@ -32,6 +32,11 @@ containers:
         - MEMCACHED_USERNAME=admin
         - MEMCACHED_PASSWORD=mypass
         - MEMCACHED_SERVERS=memcached:11211
+  lilie2:
+    <<: *lilie
+  lilie3:
+    <<: *lilie
+
 
   memcached:
     image: tutum/memcached
