@@ -39,7 +39,7 @@ ApplicationServer = Rack::Builder.new {
     "/lib",
     "/swagger-ui.js",
     "/index.html"
-  ], :root => "public", index: 'index.html'
+  ], :root => "public", index: 'index.html', header_rules: [[:all, {'Cache-Control' => 'public, max-age=31536000'}]]
 
   map "/javascripts" do
     run SprocketsApp
