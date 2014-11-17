@@ -24,6 +24,8 @@ class ImageEndpoint < BaseEndpoint
         def render_image
           content_type MIME::Types.type_for(@image_data.file_name)[0].to_s
           env['api.format'] = :binary
+          #header 'Cache-Control', 'public, max-age=31536000'
+          #header 'Expires', Time.at(0).utc.to_s
           #NOTE: this will download the image: header "Content-Disposition", "attachment; filename*=UTF-8''#{URI.escape(image_data.file_name)}"
           @image_data.file.data
         end
@@ -35,6 +37,7 @@ class ImageEndpoint < BaseEndpoint
           present Kaminari.paginate_array(@image_variants).page(params[:page]).per(params[:size]), with: ImageVariantsRepresenter
         end
       end
+
       desc "Get info about an image variants"
       get '/' do
         params[:format] == 'json' ? render_image_variant_details : render_image_variants

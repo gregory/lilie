@@ -1,7 +1,6 @@
 require 'endpoints/image_endpoint'
 class AlbumEndpoint < BaseEndpoint
   helpers Garner::Mixins::Rack
-
   format :json
   formatter :json, Grape::Formatter::Roar
 
@@ -22,7 +21,9 @@ class AlbumEndpoint < BaseEndpoint
     names 'Albums'
   end
   post '/' do
-    album = AlbumData.create
+    album = cookies[:album_id].nil? ? AlbumData.create : AlbumData.first(slug: cookies[:album_id])
+    error!('400 Invalid Album, dude', 400) unless album
+
     params[:files].values.each do |file|
       album.images << ImageData.new.tap do |f|
         f.file = file[:tempfile]
@@ -30,11 +31,12 @@ class AlbumEndpoint < BaseEndpoint
       end
     end
     album.save
+    cookies[:album_id] = album.slug
     present album, with: AlbumRepresenter
   end
 
   #route_param :album_id, requirements: /\^(?!doc)\w*\$/ do
-  route_param :album_id, requirements: %r{\w{8}} do
+  route_param :album_id do
     before do
       @album = AlbumData.first(slug: params[:album_id])
       error!('400 Invalid Album, dude', 400) unless @album
@@ -51,11 +53,6 @@ class AlbumEndpoint < BaseEndpoint
       @album.save
       present @album, with: AlbumRepresenter
     end
-
-    #before do
-      #header 'Expires' => Time.at(0).utc.to_s
-      #header 'Cache-Control' => 'public, max-age=31536000'
-    #end
 
     helpers do
       def render_html_album

@@ -39,7 +39,7 @@ $ http http://lilie.gregory.io/SLUG/images/ID
 ##ROADMAP:
 
 - [x] POST /                                     Post images to a new album
-- [ ] POST /                                     create new album unless album_id is passed in a cookie. use before_validation block to overwrite the params
+- [x] POST /                                     create new album unless album_id is passed in a cookie. use before_validation block to overwrite the params
 - [x] POST /:album_id/                           Post images to an existing album
 - [x] GET /:album_id.json                        all the images from an album
 - [x] GET /:album_id                             DISPLAY all the images as an album
@@ -52,6 +52,8 @@ $ http http://lilie.gregory.io/SLUG/images/ID
 - [ ] Call to kraken to optimise the image size this should be a delayed job - anytime there is at least 1 new image in an album, run this task - we'll update the stored image
 - [ ] Load balance the all shit with nginx and make master/slave mysql
 - [x] On the fly manipulations
+- [ ] Cache
+- [ ] Add Swagger
 - [ ] Fix HAL - it doesn't make any sens now
 ## Copyright
 
