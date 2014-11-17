@@ -53,7 +53,7 @@ $ http http://lilie.gregory.io/SLUG/images/ID
 - [ ] Load balance the all shit with nginx and make master/slave mysql
 - [x] On the fly manipulations
 - [ ] Cache
-- [ ] Add Swagger
+- [x] Add Swagger
 - [ ] Fix HAL - it doesn't make any sens now
 ## Copyright
 

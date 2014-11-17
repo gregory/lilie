@@ -40,8 +40,6 @@ class LilieAPI < Grape::API
 
   add_swagger_documentation \
     mount_path: '/doc',
-    base_path: '/doc',
-    root_base_path: false,
     hide_documentation_path: true,
     description: {
       desc: "Lilie akka THE gorgeous Image as a Service from BigCommerce"

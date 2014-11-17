@@ -32,7 +32,7 @@ ApplicationServer = Rack::Builder.new {
     "/images",
     "/lib",
     "/swagger-ui.js",
-    "/doc.html"
+    "/index.html"
   ], :root => "public", index: 'index.html'
 
   map "/javascripts" do
