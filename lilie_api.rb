@@ -28,7 +28,6 @@ require 'representers/images_representer'
 require 'representers/image_variants_representer'
 require 'representers/image_detail_representer'
 
-
 DataMapper.finalize
 class LilieAPI < Grape::API
   before do

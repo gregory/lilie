@@ -35,7 +35,7 @@ module AlbumRepresenter
       {
         method: 'GET',
         name: :image,
-        href: "#{request.base_url}/albums/#{slug}/images/{uuid}/{filename}"
+        href: "#{CONFIG.assets_host}/albums/#{slug}/images/{uuid}/{filename}"
       },
       {
         method: 'GET',

@@ -8,7 +8,7 @@ module GalleryRepresenter
     property :small
 
     define_method :small do
-      "#{CONFIG.api_endpoint}/albums/#{album.slug}/images/#{uuid}/#{file.basename}.#{file.ext}"
+      "#{file.remote_url(host: CONFIG.assets_host)}?#{updated_at.to_i}"
     end
   end
 end

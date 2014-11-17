@@ -2,6 +2,12 @@ require './lilie_api.rb'
 require 'rack/cors'
 require 'rack/cache'
 
+use Rack::Cors do
+  allow do
+    origins '*'
+    resource '*', headers: :any, methods: :get
+  end
+end
 if !RACK_ENV.production?
   use Rack::Cache,
     :verbose     => true,

@@ -26,8 +26,9 @@ class ImageData
   dragonfly_accessor :file, app: :lilie do
     after_assign do |file|
     end
+
     storage_options do |file|
-      { path: "#{album.slug}/#{uuid}/#{file.name}" } #/album_id/uuid/version/file.name
+      { path: "albums/#{album.slug}/images/#{uuid}/#{file.name}" }
     end
   end
 

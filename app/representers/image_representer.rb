@@ -12,8 +12,11 @@ module ImageRepresenter
   property :updated_at, type: DateTime
   property :steps
 
+  def album_slug
+    @album_slug ||= album.slug
+  end
+
   link :self do |opts|
-    request = Grape::Request.new(opts[:env])
-    "#{request.base_url}/albums/#{album.slug}/images/#{uuid}/#{file.basename}.#{file.ext}"
+    "#{file.remote_url(host: CONFIG.assets_host)}?#{updated_at.to_i}"
   end
 end

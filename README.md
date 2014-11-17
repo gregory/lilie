@@ -8,7 +8,7 @@ $ brew install httpie
 Push your picturs to a new album and keep the slug for your new album
 
 ```bash
-$ http -f http://lilie.gregory.io files[1]@./file.jpg files[2]@./file2.jpg
+http --session=uesr1 -f http://lilie.gregory.io/albums files[1]@images/chuck.jpg files[2]@images/file2.jpg
 ```
 
 Display the pictures in your album
@@ -52,7 +52,7 @@ $ http http://lilie.gregory.io/SLUG/images/ID
 - [ ] Call to kraken to optimise the image size this should be a delayed job - anytime there is at least 1 new image in an album, run this task - we'll update the stored image
 - [ ] Load balance the all shit with nginx and make master/slave mysql
 - [x] On the fly manipulations
-- [ ] Cache
+- [x] Cache
 - [x] Add Swagger
 - [ ] Fix HAL - it doesn't make any sens now
 

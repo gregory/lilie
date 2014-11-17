@@ -1,7 +1,8 @@
 development: &default
   api_endpoint: 'http://localhost:5000'
   assets_host: 'http://localhost:5000'
+  assets_host: 'img.gregory.io'
 production:
   <<: *default
   api_endpoint: 'http://lilie.gregory.io'
-  assets_host: 'https//img.gregory.io'
+  assets_host: 'img.gregory.io'

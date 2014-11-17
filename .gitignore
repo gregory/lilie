@@ -4,6 +4,8 @@
 db/*.sqlite*
 # rcov generated
 coverage
+log
+tmp
 coverage.data
 uploads
 .env

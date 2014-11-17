@@ -39,8 +39,7 @@ module ImageVariantsRepresenter
     property :steps, as: :transformations
 
     link :image do |opts|
-      request = Grape::Request.new(opts[:env])
-      "#{request.base_url}/albums/#{album.slug}/images/#{uuid}/#{file_name}"
+      "#{file.remote_url(host: CONFIG.assets_host)}?#{updated_at.to_i}"
     end
 
     link :self do |opts|
