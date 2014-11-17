@@ -15,7 +15,7 @@ module ImagesRepresenter
 
     link :self do |opts|
       request = Grape::Request.new(opts[:env])
-      "#{request.base_url}/#{album.slug}/images/#{uuid}/#{file.basename}-#{updated_at.to_i}.#{file.ext}"
+      "#{request.base_url}/albums/#{album.slug}/images/#{uuid}/#{file.basename}-#{updated_at.to_i}.#{file.ext}"
     end
   end
 end

@@ -7,7 +7,7 @@ module AlbumsRepresenter
 
   link :self do |opts|
     request = Grape::Request.new(opts[:env])
-    "#{request.base_url}/"
+    "#{request.base_url}/albums"
   end
 
   collection :to_a, as: :albums do
@@ -16,7 +16,7 @@ module AlbumsRepresenter
 
     link :self do |opts|
       request = Grape::Request.new(opts[:env])
-      "#{request.base_url}/#{slug}"
+      "#{request.base_url}/albums/#{slug}"
     end
   end
 end

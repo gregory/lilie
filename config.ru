@@ -21,5 +21,7 @@ else
     entitystore: CACHE
 end
 
+use Rack::ConditionalGet
+use Rack::ETag
 use Dragonfly::Middleware, :lilie
 run LilieAPI

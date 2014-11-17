@@ -7,6 +7,8 @@ module ImageDetailRepresenter
   include ImageRepresenter
 
   def_delegators :file, :width, :height
+  def_delegator :album, :slug, :album_id
+
   property :width
   property :height
   property :album_id
@@ -14,16 +16,16 @@ module ImageDetailRepresenter
 
   link :self do |opts|
     request = Grape::Request.new(opts[:env])
-    "#{request.base_url}/#{album.slug}/images/#{uuid}/#{file.basename}.json"
+    "#{request.base_url}/albums/#{album.slug}/images/#{uuid}/#{file.basename}.json"
   end
 
-  link "image:original" do |opts|
+  link "image" do |opts|
     request = Grape::Request.new(opts[:env])
-    "#{request.base_url}/#{album.slug}/images/#{uuid}/#{file.basename}.#{file.ext}"
+    "#{request.base_url}/albums/#{album.slug}/images/#{uuid}/#{file.basename}.#{file.ext}"
   end
 
   link "image:thumb" do |opts|
     request = Grape::Request.new(opts[:env])
-    "#{request.base_url}/#{album.slug}/images/#{uuid}/filter:thumb(100x100)/#{file.basename}.#{file.ext}"
+    "#{request.base_url}/albums/#{album.slug}/images/#{uuid}/filter:thumb(100x100%23)/#{file.basename}.#{file.ext}"
   end
 end

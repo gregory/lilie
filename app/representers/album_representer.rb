@@ -16,7 +16,7 @@ module AlbumRepresenter
 
   link :self do |opts|
     request = Grape::Request.new(opts[:env])
-    "#{request.base_url}/#{slug}"
+    "#{request.base_url}/albums/#{slug}"
   end
 
   curies do |opts|
@@ -24,36 +24,36 @@ module AlbumRepresenter
     [
       {
         method: 'GET',
-        name: :image_variants,
-        href: "#{request.base_url}/#{slug}/images/{uuid}"
+        name: :variants_album,
+        href: "#{request.base_url}/albums/#{slug}/images/{uuid}"
       },
       {
         method: 'GET',
-        name: :image_variants_details,
-        href: "#{request.base_url}/#{slug}/images/{uuid}.json"
+        name: :variants,
+        href: "#{request.base_url}/albums/#{slug}/images/{uuid}.json"
       },
       {
         method: 'GET',
         name: :image,
-        href: "#{request.base_url}/#{slug}/images/{uuid}/{filename}"
+        href: "#{request.base_url}/albums/#{slug}/images/{uuid}/{filename}"
       },
       {
         method: 'GET',
         name: :image_details,
-        href: "#{request.base_url}/#{slug}/images/{uuid}/{filename}.json"
+        href: "#{request.base_url}/albums/#{slug}/images/{uuid}/{filename}.json"
       },
       {
         method: 'GET',
         name: :filter_image,
-        href: "#{request.base_url}/#{slug}/images/{uuid}/filter:[filter1(options),...]/{filename}.json"
+        href: "#{request.base_url}/albums/#{slug}/images/{uuid}/filter:[filter1(options),...]/{filename}.json"
       },
       {
         method: 'POST',
         name: :save_filtered_image,
-        href: "#{request.base_url}/#{slug}/images/{uuid}/filter:[filter1(options),...]/{filename}.json"
+        href: "#{request.base_url}/albums/#{slug}/images/{uuid}/filter:[filter1(options),...]/{filename}.json"
       }
     ]
   end
 
-  collection :images, extend: ImageRepresenter,  as: :images
+  collection :images, extend: ImageRepresenter,  as: :images, embedded: true
 end

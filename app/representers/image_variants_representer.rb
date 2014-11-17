@@ -1,9 +1,16 @@
+require 'forwardable'
 module ImageVariantsRepresenter
+  extend Forwardable
   include Roar::Representer::JSON
   include Roar::Representer::Feature::Coercion
   include Grape::Roar::Representer
   include PaginatedRepresenter
   include Roar::Representer::JSON::HAL
+
+  def_delegator :album, :slug, :album_id
+
+  property :uuid
+  property :album_id
 
   def album
     @album ||= to_a[0].album
@@ -15,42 +22,30 @@ module ImageVariantsRepresenter
 
   link :self do |opts|
     request = Grape::Request.new(opts[:env])
-    "#{request.base_url}/#{album.slug}/images/#{uuid}.json"
+    "#{request.base_url}/albums/#{album.slug}/images/#{uuid}.json"
   end
 
-  link :image_variants do |opts|
+  link :variants_album do |opts|
     request = Grape::Request.new(opts[:env])
-    "#{request.base_url}/#{album.slug}/images/#{uuid}/"
+    "#{request.base_url}/albums/#{album.slug}/images/#{uuid}/"
   end
 
-  curies do |opts|
-    request = Grape::Request.new(opts[:env])
-    [
-      {
-        method: 'POST',
-        name: :save_filtered_image,
-        href: "#{request.base_url}/#{album.slug}/images/#{uuid}/filter:thumb(200x200),rotate(180)/{filename}",
-        params: {
-          basename: 'Name of the file to save to'
-        }
-      },
-      {
-        method: 'GET',
-        name: :image_details,
-        href: "#{request.base_url}/#{album.slug}/images/#{uuid}/{filename}"
-      },
-    ]
-  end
-
-  collection :to_a, as: :variants do
+  collection :to_a, as: :variants  do
     include Roar::Representer::JSON::HAL
 
-    property :uuid
     property :file_name, as: :filename
-    property :file_fingerprint, as: :fingerprint
-    property :file_shot_at, as: :shot_at, type: DateTime
     property :file_aspect_ratio, as: :aspect_ratio
     property :updated_at, type: DateTime
-    property :transformations
+    property :steps, as: :transformations
+
+    link :image do |opts|
+      request = Grape::Request.new(opts[:env])
+      "#{request.base_url}/albums/#{album.slug}/images/#{uuid}/#{file_name}"
+    end
+
+    link :self do |opts|
+      request = Grape::Request.new(opts[:env])
+      "#{request.base_url}/albums/#{album.slug}/images/#{uuid}/#{file.basename}.json"
+    end
   end
 end

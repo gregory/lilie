@@ -1,11 +1,11 @@
+require 'endpoints/image_endpoint'
 class AlbumEndpoint < BaseEndpoint
   helpers Garner::Mixins::Rack
-  use Rack::ConditionalGet
-  use Rack::ETag
 
   format :json
   formatter :json, Grape::Formatter::Roar
 
+  desc "Info about the albums"
   if RACK_ENV.development?
     desc "List all the albums (development only)"
     params do
@@ -17,7 +17,10 @@ class AlbumEndpoint < BaseEndpoint
     end
   end
 
-  desc "Create a new album - TODO: remember the album_id in the session"
+  desc "Create a new album - TODO: remember the album_id in the session" do
+    detail 'more details'
+    names 'Albums'
+  end
   post '/' do
     album = AlbumData.create
     params[:files].values.each do |file|
@@ -30,7 +33,8 @@ class AlbumEndpoint < BaseEndpoint
     present album, with: AlbumRepresenter
   end
 
-  route_param :album_id do
+  #route_param :album_id, requirements: /\^(?!doc)\w*\$/ do
+  route_param :album_id, requirements: %r{\w{8}} do
     before do
       @album = AlbumData.first(slug: params[:album_id])
       error!('400 Invalid Album, dude', 400) unless @album
@@ -69,5 +73,7 @@ class AlbumEndpoint < BaseEndpoint
     get '/' do
       params[:format] == 'json' ? render_json_album : render_html_album
     end
+
+    mount ImageEndpoint => '/albums'
   end
 end

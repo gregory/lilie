@@ -2,6 +2,7 @@ require './boot.rb'
 Bundler.require(:standalone)
 
 require 'grape'
+require 'grape-swagger'
 require "garner/mixins/rack"
 require 'roar/representer'
 require 'roar/representer/json'
@@ -13,8 +14,6 @@ require 'lilie'
 
 require 'endpoints/base_endpoint'
 require 'endpoints/album_endpoint'
-require 'endpoints/image_variants_endpoint'
-require 'endpoints/image_filter_endpoint'
 require 'endpoints/image_endpoint'
 
 require 'data/album_data'
@@ -32,8 +31,12 @@ require 'representers/image_detail_representer'
 DataMapper.finalize
 
 class LilieAPI < Grape::API
-  mount AlbumEndpoint => '/'
-  mount ImageVariantsEndpoint => '/'
-  mount ImageEndpoint => '/'
-  mount ImageFilterEndpoint => '/'
+  mount AlbumEndpoint => '/albums'
+
+  add_swagger_documentation \
+    mount_path: '/doc',
+    hide_documentation_path: true,
+    description: {
+      desc: "Lilie akka THE gorgeous Image as a Service from BigCommerce"
+    }
 end
