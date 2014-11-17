@@ -5,7 +5,7 @@ db/*.sqlite*
 # rcov generated
 coverage
 coverage.data
-public/*
+upload
 .env
 
 # rdoc generated

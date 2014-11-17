@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'bundler/setup'
+require 'newrelic-grape'
 require 'yaml'
 require 'data_mapper'
 require 'hashie'

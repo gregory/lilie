@@ -29,14 +29,21 @@ require 'representers/image_detail_representer'
 
 
 DataMapper.finalize
-
 class LilieAPI < Grape::API
+  before do
+    header['Access-Control-Allow-Origin'] = '*'
+    header['Access-Control-Request-Method'] = '*'
+  end
+
   mount AlbumEndpoint => '/albums'
 
   add_swagger_documentation \
     mount_path: '/doc',
+    base_path: '/doc',
+    root_base_path: false,
     hide_documentation_path: true,
     description: {
       desc: "Lilie akka THE gorgeous Image as a Service from BigCommerce"
     }
 end
+
