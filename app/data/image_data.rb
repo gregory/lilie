@@ -56,4 +56,8 @@ class ImageData
       self.transformations = s.join(', ')
     end
   end
+
+  def steps
+    transformations.nil? ? "" : transformations.gsub(/\\"/, "").gsub(/\"/, "'")
+  end
 end

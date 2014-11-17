@@ -10,10 +10,7 @@ module ImageDetailRepresenter
   property :width
   property :height
   property :album_id
-
-  def album_id
-    album.slug
-  end
+  property :steps
 
   link :self do |opts|
     request = Grape::Request.new(opts[:env])
